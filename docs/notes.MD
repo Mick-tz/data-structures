@@ -174,3 +174,117 @@ Similarly to stacks, *Queues* could be implemented both using a list or an array
 | `Empty()` | assert if stack is empty | `O(1)` | ~ |
 
 Same implementation overhead costs as with stacks apply for queues.
+
+## Trees
+Trees are defined recursively as follows:
+
+1. `Empty`, or
+1. A `Node` that contains
+    - a `key` (or value)
+    - a `list of child trees`
+
+A tree defines a hierarchy where nodes included in the list of child tree of a give node are considered to be below in the hierarchy. 
+
+The *topmost Node on a tree* is known as the **root** of the tree.  
+
+An **ancestor** (from a given node) is a node that lies above in the hierechy and **child node** is one that stays one positiion below in the hierachy (from the considered *parent*). We considere an **edge** to connect a *parent node* with it's *children*. 
+
+A **descendant** is the inverse concept than an ancestor.
+
+*Nodes* sharing the same parent are considered **siblings**.
+
+A **leaf** is a node that has no children. Conversely, an **interior node** is a node having children that isn't the root.
+
+The **level** of a *node* is 1 plus the number of *edges* that need to be traversed to reach the *root* (thus, the level of the *root node* is 1). Similarly, **level n+1** is the set of nodes which are *n edges away from the root node*.
+
+The **height** of a node is the maximum depth of a subtree node in it's child's list.
+
+A **Forest** is a *collection of trees* (having different roots).
+
+When we implement a tree, we could add a (optional) reference to the parent of any given node, making it simpler to traverse the tree up and downwards.
+
+### **Binary Trees**
+Trees in which each node has at most 2 children are known as binary trees and are of particular interest as they are really useful.
+
+*Node* implementations of binary trees tend to have explicit definitions for left and right children rather than implementing them as a list of childs.
+
+### **Tree traversals**
+Often we want to visit the nodes of a tree in a particular order.
+
+There are 2 main ways of traversing a tree:
+  1. **Depth-first**: we completely traverse one sub-tree before exploring any siblings.
+  1. **Breadth-first**: we completely traverse all nodes at one level before progressing to the next level.
+
+### **Depth-First**
+Binary trees can easily be traversed taking advantage of a derived total ordering of the tree. Such recursive algorithm is usually known as *in order traversal*.
+```python
+class BinaryTree:
+  ...
+  def in_order_traversal(self, func):
+    """
+    apply func to every key in the tree, traversing all elements in a branch before moving to the next
+    """
+    if self.is_empty():
+      return
+    self.left_child.in_order_traversal()
+    func(self.key)
+    self.right_child.in_order_traversal()
+  ...
+```
+
+This idea can be generalized to non-binary trees by simply changing the moment we call `func` over the current node key. Such algorithms are known as *pre order traversal* and *post order traversal*, respectively.
+
+```python
+class Tree:
+  ...
+  def pre_order_traversal(self, func):
+    """
+    apply func to every key in the tree, traversing all elements in a branch before moving to the next
+    """
+    if self.is_empty():
+      return
+    func(self.key)
+    for child_tree in self.child_trees
+      child_tree.pre_order_traversal()
+
+
+  def post_order_traversal(self, func):
+    """
+    apply func to every key in the tree, traversing all elements in a branch before moving to the next
+    """
+    if self.is_empty():
+      return
+    for child_tree in self.child_trees
+      child_tree.post_order_traversal()
+    func(self.key)
+  ...
+```
+
+**_OBS:_** An important, inconspicuous, detail of these algorithms, is that they discreetly utilize a stack under the covers as a mean to keep track of where we are at any given point of the execution.
+
+### **Breadth-First**
+We illustrate the algorithm in binary trees as it's easier to understand, yet it would not be hard to generalize it to general trees.
+```python
+class BinaryTree:
+  ...
+  def level_traversal(self, func):
+    """
+    apply func to every key in the tree, traversing all elements in a level before moving to the next
+    """
+    if self.is_empty():
+      return
+    pending_queue = Queue()
+    pending_queue.enqueue(self)
+    while not pending_queue.is_empty():
+      node = q.dequeue()
+      func(node.key)
+      if node.left_child:
+        q.enqueue(node.left_child)
+      if node.right_child:
+        q.enqueue(node.right_child)
+  ...
+```
+
+**_OBS:_** Conversely to what we have mentioned before, breadth first (search) algorightms take advantage of queues. 
+### **Tree API**
+

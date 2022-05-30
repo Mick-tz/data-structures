@@ -76,8 +76,87 @@ There are 2 ways we can layout multi-dimensional arrays.
 **Pros**
 - Arrays are great if you want to add or remove at the end.
 - Read or write anywhere in constant time.
+- Good for devide and conquer algorithms (as it is cheap to read everywhere).
 
 **Cons**
 - Arrays are expensive to add or remove in the middle.
 
-## Singly Liked Lists
+## Lists
+Require 2 primitive concepts:
+
+1. **Pointers**, which give the reference to an address.
+1. **Nodes**, which consists on at key (or value) and a pointer to a subsequent node.
+
+Notice *Nodes* could also include pointers referencing their previous element.
+
+Thus, a list consists on at least 
+1. A **head** pointer, referencing the first element of the list (which could be `nil` for an empty list).
+1. A **set of nodes**.
+
+As mentioned, head pointer itself simply points to the *first* node of the list.
+
+As we traverse each node, eventually we reach the *last* node, which pointer's is `nil` (it doesn't point to any subsequent element in the list).
+
+Optionally, list could also have a **tail pointer** referencing their last element.
+
+### **Singly-Liked Lists**
+
+When each node implement only a pointer to their next element, we say we are working with a **Singly-Linked List**.
+
+### **List API** (Singly-Linked List)
+| Operation         | Description | Complexity (w.o. tail) | Complexity (with tail) |
+| --                | -- | -- | -- |
+| `PushFront(key)`  | add to front | `O(1)` | ~ |
+| `TopFront()`      | return front item | `O(1)` | ~ |
+| `PopFront()`      | return and remove front item | `O(1)` | ~ |
+| `PushBack(key)`   | add to back | `O(n)` | `O(1)` |
+| `TopBack()`       | return back item | `O(n)` | `O(1)` |
+| `PopBack()`       | return and remove back item | `O(n)` | ~ |
+| `Find(key)`       | assert element is in the list | `O(n)` | ~ |
+| `Erase(key)`      | find and remove from the list | `O(n)` | ~ |
+| `Empty()`     | assert if list is empty (head == nil) | `O(1)` | ~ |
+| `AddBefore(node, key)` | adds key before node | `O(n)` | ~ |
+| `AddAfter(node, key)` | adds key after node | `O(1)` | ~ |
+
+### **Doubly-Linked List**
+If we were to add in every node a pointer to the previous element, we would operate
+
+### **List API** (Doubly-Linked List)
+| Operation         | Description | Complexity (w.o. tail) | Complexity (with tail) |
+| --                | -- | -- | -- |
+| `PushFront(key)`  | add to front | `O(1)` | ~ |
+| `TopFront()`      | return front item | `O(1)` | ~ |
+| `PopFront()`      | return and remove front item | `O(1)` | ~ |
+| `PushBack(key)`   | add to back | `O(n)` | `O(1)` |
+| `TopBack()`       | return back item | `O(n)` | `O(1)` |
+| `PopBack()`       | return and remove back item | `O(1)` | ~ |
+| `Find(key)`       | assert element is in the list | `O(n)` | ~ |
+| `Erase(key)`      | find and remove from the list | `O(n)` | ~ |
+| `Empty()`     | assert if list is empty (head == nil) | `O(1)` | ~ |
+| `AddBefore(node, key)` | adds key before node | `O(1)` | ~ |
+| `AddAfter(node, key)` | adds key after node | `O(1)` | ~ |
+
+
+**Pros**
+- Constant time to insert at or remove from the front (in contrast to arrays).
+- For doubly-linked lists it's also constant time to insert at or remove from the back.
+- Elements need not be contigous.
+- Elements need not be the same size.
+
+**Cons**
+- Bad for devide and conquer algorithms (as it is expensive to find elements in the middle of the list).
+- Doubly linked list with head and tail require a bit more memory (yet provide write complexity advantages as mentioned).
+
+## Stacks
+Data type which follows **Last In First Out (LIFO)** conventions and satisfies the API shown below.
+
+Before going further, it's worth mentioning stacks could be implemented using stacks or linked lists, thus we add the complexities respectively below.
+### **Stack API**
+| Operation | Description | Complexity (using array as base) | Complexity (using list as base) |
+| -- | -- | -- | -- |
+| `Push(key)` | add key to collection | `O(1)` if `\|stack\| < \|array\|` else `O(n)` | `O(1)` |
+| `Top()` | returns most-recently added key | `O(1)` | ~ |
+| `Pop()` | returns and removes most-recently added key | `O(1)` | ~ |
+| `Empty()` | assert if stack is empty | `O(1)` | ~ |
+
+While list implementation has the overhead cost of including pointers, array has the overhead cost of reserving empty spaces.

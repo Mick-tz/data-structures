@@ -154,9 +154,23 @@ Before going further, it's worth mentioning stacks could be implemented using st
 ### **Stack API**
 | Operation | Description | Complexity (using array as base) | Complexity (using list as base) |
 | -- | -- | -- | -- |
-| `Push(key)` | add key to collection | `O(1)` if `\|stack\| < \|array\|` else `O(n)` | `O(1)` |
+| `Push(key)` | add key to collection | `O(1)` if `\|stack\| <= \|array\|` else `O(n)` | `O(1)` |
 | `Top()` | returns most-recently added key | `O(1)` | ~ |
 | `Pop()` | returns and removes most-recently added key | `O(1)` | ~ |
 | `Empty()` | assert if stack is empty | `O(1)` | ~ |
 
 While list implementation has the overhead cost of including pointers, array has the overhead cost of reserving empty spaces.
+
+## Queues
+Data type which follows **First In First Out (FIFO)** conventions and satisfies the API shown below.
+
+Similarly to stacks, *Queues* could be implemented both using a list or an array as base. However, we would need to use a **_circular array_** to preserve runtime complexity.
+
+### **Queue API**
+| Operation | Description | Complexity (using array as base) | Complexity (using list as base) |
+| -- | -- | -- | -- |
+| `Enqueue(key)` | add key to collection | `O(1)` if `\|queue\| <= \|array\|` else `O(n)` | `O(1)` |
+| `Dequeue()` | removes and returns last-recently added key | `O(1)` | ~ |
+| `Empty()` | assert if stack is empty | `O(1)` | ~ |
+
+Same implementation overhead costs as with stacks apply for queues.

@@ -286,5 +286,108 @@ class BinaryTree:
 ```
 
 **_OBS:_** Conversely to what we have mentioned before, breadth first (search) algorightms take advantage of queues. 
-### **Tree API**
 
+## Indirection
+Rather than directly storing our reference to the static of dynamically allocated chunk of memory, we store a pointer to that chunk of memory.
+## Dynamic Arrays
+*Dynamic arrays* are also known as rizesable arrays.
+
+They differ to *dynamically allocated arrays* which are simply arrays who's size is determined at run time, but never changes.
+
+They allow us to dynamically increase the size of an array, by storing a pointer to a given dynamically allocated array, and replace it with a newly allocated array as needed (by the size constraints).
+
+### **Dynamic arrays API**
+| Operation   | Description                     | Complexity |
+| --          | --                              | --         |
+| `Get(i)`    | returns element at location `i` | `O(1)`     |
+| `Set(i, v)` | sets element `i` to value `v`   | `O(1)`     |
+| `PushBack(v)` | adds value `v` at the end     | `O(1)*`     |
+| `Remove(i)` | removes element at location `i` | `O(n)`     |
+| `Size()`    | returns the number of elements  | `O(1)`     |
+
+\* *`PushBack(v)` is `O(n)` for the worst case scenario. However, doing amortized analysis, we find it to be `O(1)` almost everywhere.*
+
+### Implementation
+In order to implement dynamical arrays we require 3 components:
+  1. *arr*: dynamically-allocated array
+  1. *capacity*: size of *arr*
+  1. *size*: number of elements currently in *arr*
+
+**_OBS:_** All of the following are actually implementations of *dynamic arrays*
+
+  - C++: vector
+  - Java: ArrayList
+  - Python: list
+
+## Amortized Analysis
+When calculating complexity for certain algorithms, we find examples where looking at the individual worst-case scenario may be too severe.
+
+Alternatively, it might be that we are looking for the *total worst-case cost* for a sequence of operations, some of which are expensive and some of which aren't.
+
+We define the **Amortized cost** of a given sequence of *n* operations as:
+
+```python
+# cost(ops) is the set of costs of all the operations 
+amortized_cost = sum(cost(ops)) / len(ops)
+```
+
+### Aggregate Method (for amortized analysis)
+The *aggregate method* for calculating amortized analysis consists simply on using the defintion as state above in order to get the amortized cost of an algorithm.
+
+To examplify, we use the *aggregate method* to calculate the amortized cost of dynamic array's `PushBack(v)` method
+
+```python
+def is_power_of_two(n: int) -> bool:
+  """returns whether a number is a power of 2 """
+  pass
+
+costs = []
+for i in range(n):
+  cost = i + (i - 1) if is_power_of_two(i - 1) else 1
+  costs.append(cost)
+cost = sum(costs) / n
+```
+In this case, as `n` grows, `sum(costs)` will tend to `n`.
+
+### Banker's Method (for amortized analysis)
+The intuition of the *banker's method* is that we'll follow the next steps:
+  1. We'll "charge extra" for each cheap operation.
+  1. The "extra charge" is saved as tokens (conceptually).
+  1. We use the saved tokens to "pay" for expensive operations.
+
+Notice that the "extra charge" depend on the algorithm that we have in hand. But the idea is save enough "extra tokens" so that when we have to perform an expensive operation, we can fulfill the cost with the prepaid tokens.
+
+To exemplify, let us discuss the cost of `PushBack(v)` using this idea.
+
+If we consider every `PushBack(v)` call to take 3 operations (`O(3)=O(1)`), we can calculate cost as follows (we start with an existing array of size 4 where 2 values where already inserted):
+
+  1. Adding a 3th element costs 3 (1 is for the actual insert, we save 1 for moving the 1st element and one for moving the 3th element).
+  1. Adding a 4th element costs 3 (1 is for the actual insert, we save 1 for moving the 2nd element and one for moving the 4th element).
+  1. When we intend to Push again, we need to resize the array (as it is already filled), we create the new array (size 8), and we move the 4 elements which we already have (we have enough tokens to move them at cost 0), finally, we push to this new copy of the array at cost 3 (1 is for the actual insert, we save 1 for moving the 1st element and one for moving the 5th element).
+  1. This pattern repeats itself.
+
+As we can see, we have "showned" (with some things to detail) that `PushBack(v)` has a complexity `O(3)=O(1)`.
+
+### Physiscist Method (for amortized analysis)
+In *pysicist method* (for amortized analysis), we define an potential function, `phi`, which maps states of the data structure to integers.
+
+Such a function should satisfy the following:
+  - `phi(h0) = 0 # where h0 is the initial state of the data structure` 
+  - `0 <= pho(hn)`
+
+Finally, we calculate amortized cost with the following formula:
+```python
+# t = j + 1
+ac_t = c_t + phi(h_t) - phi(h_j)
+```
+Where `c_t` is the true cost of an operation (in the `PushBack(v)` example, `c_t = 1`).
+
+Thus, we choose `phi` in such a way that, when `c_t` is small, the potential increases and conversely, the potential decreases when `c_t is large`.
+
+Notice that the sum of these costs has the sum of the actual costas as a lower bound (thus, it makes sense to use this calculation)
+```python
+# truly phi(h_n) - phi(h_0) + sum(costs), but phi(h_0) = 0
+amortize_cost = phi(h_n) + sum(ac_costs)
+```
+
+To exemplify, we can define `phi(h) = 2 * (size - capacity)` for the amortized analysis of the `PushBack(v)` method.

@@ -391,3 +391,189 @@ amortize_cost = phi(h_n) + sum(ac_costs)
 ```
 
 To exemplify, we can define `phi(h) = 2 * (size - capacity)` for the amortized analysis of the `PushBack(v)` method.
+
+## Priority Queues
+*Priority Queues* are a generalization of the standard Queue data structure in which each element is assigned a priority and elements come out in order of priorities.
+
+*Priority Queues* are typically used for scheduling jobs.
+
+### Priority Queues API
+| Operation   | Description               | Complexity (using heaps) |
+| --          | --                                      |  --        |
+| `Insert(p)` | Adds new element with priority `p`      | `O(tree height)` |
+| `ExtractMax`| Extracts the element with max priority  | `O(tree height)` |
+| `Remove(it)`| Removes an element pointed by iterator `it`| `O(tree height)` |
+| `GetMax`| Returns element with max priority w.o. removing it | `O(1)` |
+| `ChangePriority(it,p)`| Using iterator `it` updates priority to `p` | `O(tree height)` |
+
+### Algorithms and built-in implementations
+
+The following algorithms use priority queues
+  - Dijsktra: finding shortest path in a graph 
+  - Prim: construct graph with minimum spanning tree of a graph
+  - Huffman: construct optimum prefix-free encoding of a string
+  - Heap sort: sorting a sequence
+
+The following are famous built-in implementations of priority queues:
+  - C++: priority_queue
+  - Java: PriorityQueue
+  - Python: heapq
+
+Notice in python, we use a heap to implement priority queues. This is give to the fact that priority queues rely on primitive data structures, like arrays or lists, to be implemented. However, naively using either of those (arrays or lists) will yield inefficient implementations of the priority (either `Insert(p)` or `ExtractMax` would execute in linear time).
+
+## Binary Heap
+A *Binary max-heap* is a binary tree, where the value of each node is at least the value of its children.
+
+In other words, the ordering in the tree corresponding to the (total) ordering of the values in its nodes (each parent nodes value, is greater than or equal the values of its children nodes).
+
+### Complete Binary heaps
+When we use a binary heap as the underlying structure of a priority queue, we want to keep the tree *as shallow as possible* since most operations will have complesity `O(tree height)`.
+
+In order to achieve this property, a natural approach is to require that all levels are fully packed. This notion is known as a *complete tree*.
+
+In concrete, we say that a *binary tree is complete* if all its levels are filled, except possibly for the deepest one which is filled from left to right.
+
+**_OBS_**: A complete binary tree with `n` nodes has height at most `O(log n)`.
+
+An additional advantage of binary complete trees as binary heaps, is that they can be implemented using an array, when we start enumerating from the maximum node and follow up from left to right.
+
+In such a case, we can get the values in each element by using the following formulas
+
+```python
+# i represent the number of the node, e.g. topmost node is 1
+parent(i) = i // 2 # floor(float(i)/2.0)
+leftchild(i) = 2 * i
+rightchild(i) = 2 * i + 1
+```
+
+### Trade offs
+The trade off of using complete binary trees is that we must ensure that the tree remains complete at any point.
+
+Concretely, both `Insert(p)` and `ExtractMax` change the shape of a tree, and thus we need to be extra careful in order to define them as to not lose completeness.
+
+`Insert(p)` can be easily implemented, simply by assuring we add a node to the leftmost vacant spot at the bottom level.
+
+Similarly, to `ExtractMax`, we simply swap the max with the last node and perform siftdown accordingly.
+
+### Heap Sort
+One important algorithm that relies on heaps is the *heap sort algorithm*, which is both a fast and efficient sorting algorithm.
+
+The algorithm is quite straightforward (and a generalization of selection sort) and thus we describe it below.
+
+```
+HeapSort(A[1...n])
+  priorityQueue <- new PriorityQueue
+  for i from 1 to n:
+    priorityQueue.Insert(A[i])
+  for i from n down to 1:
+    A[i] <- priorityQueue.ExtractMax()
+```
+
+Complexity of heap sort is `O(nlog n)`, since  both `Insert` and `ExtractMax` work in logarithmic time for complete binary heaps.
+
+As mentioned, heap sort is a generalization of selection sort, in which instead of finding naively the maximum value at each iteration, we use a smart data structure.
+
+The *Trade Off* of using heap sort over selection sort is that is uses additional spaces to store the priority queue.
+
+### Some implementations
+Turning an array into a heap is quite simple, thus we describe it below
+
+```python
+def sift_down(arr, size, root) -> None:
+  largest = root # naively set root as largest
+  left = 2 * root + 1 # left child index
+  right = 2 * root + 2 # right child index
+
+  # left child larger than root
+  if (left < size and arr[largest] < arr[left]):
+    largest = left
+  
+  # right child is larger than largest so far
+  if right < size and arr[largest] < arr[right]:
+    largest = right
+  
+  # correctly set largest value as root
+  if largest != root:
+    arr[root], arr[largest] = arr[largest], arr[root]
+
+    # recursively sift_down sub tree
+    sift_down(arr, size, largest)
+
+
+def heapify(arr):
+  size = len(arr)
+  # we start from floor(size/2) - 1 as leafs are heaps
+  for i in range(size // 2 - 1, -1, -1):
+    sift_down(arr, size, i)
+```
+Python already has an in-built component for it in the standard library `heapq` module.
+
+**However**, only min-heaps are currently supported, even tho private functions exist (currently) for max-heaps as shown below. 
+
+```python
+import heapq
+
+example_arr = [1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17]
+# from previous implementation
+heapify(example_arr)
+print(example_arr)
+# [17, 15, 13, 9, 6, 5, 10, 4, 8, 3, 1]
+
+example_arr = [1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17]
+heapq._heapify_max(example_arr)
+print(example_arr)
+# [17, 15, 13, 9, 6, 5, 10, 4, 8, 3, 1]
+```
+Finally, using our implementation of the *max-heap*, we can easily implement heap sort as shown below.
+
+```python
+import sys
+from array import array
+
+
+class MaxHeap:
+  def heapify(self, arr) -> None:
+    # as defined above
+    ...
+
+  def sift_down(self, arr, size, root) -> None:
+    # as defined above
+    ...
+
+  def heap_sort(self, arr):
+    size = len(arr) - 1
+    self.heapify(arr)
+    for i in range(size):
+      # first element is current maximum
+      arr[0], arr[size - i] = arr[size - i], arr[0]
+      # sift down (almost always) incorrect first element
+      self.sift_down(arr, size - i - 1, 0)
+
+
+if __name__ == "__main__":
+  arr = array('i', [1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17])
+  max_heap = MaxHeap()
+  max_heap.heap_sort(arr)
+  sys.stdout.write(f"{str(arr)}\n")
+  # array('i', [1, 3, 4, 5, 6, 8, 9, 10, 13, 15, 17])
+```
+
+### Trade Offs
+*Heap sort* is usually compared to quicksort with the following highlights:
+
+**Heap sort:**
+  - In place, i.e. no extra memory required to sort
+  - Worst case `O(nlog n)`
+
+**Quick sort:**
+  - Faster than heap sort
+  - Average case `O(nlog n)`
+
+Because of this, a common approach known as *Intra sort* is sometimes used.
+
+i.e.
+  - Run *Quicksort* algorithm
+  - Keep track of recursion depth
+  - If recursion depth exceeds `clog n` for some constant `c`:
+    - stop *quicksort*
+    - switch to *heapsort*

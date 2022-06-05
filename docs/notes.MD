@@ -577,3 +577,36 @@ i.e.
   - If recursion depth exceeds `clog n` for some constant `c`:
     - stop *quicksort*
     - switch to *heapsort*
+
+### Partial sorting
+Finally, we have to mention that heaps are really efficient when we want to partially sort an array, i.e. when we want to obtain the `k` largest or smalles elements in an array.
+
+This comes from the fact that *heapifying* an array has complexity `O(n)`, thus, finding the `k` largest (or smallest) elements form an array can be performed in linear time when `k = O(n/log n)`.
+
+The algorithm to do this is quite simple as shown below:
+```
+PartialSorting(A[1...n], k):
+  BuildHeap(A)
+  for i from 1 to k:
+    ExtractMax()
+```
+which will of course have runtime `O(n + k*log n)`.
+
+In python, `heapq` module provides this functionality natively
+```python
+import heapq
+
+arr = [6, 7, 9, 4, 3, 5, 8, 10, 1]
+heapq.heapify(arr) # O(n)
+
+# 2 largest
+heapq.nlargest(2, arr)
+# 2 smallest
+heapq.nsmallest(2, arr)
+```
+### Min-heaps
+We mention min-heaps before, thus, we quickly define them formally to round up the section
+
+A **_Binary min-heap_** is a binary tree where the value of each node is at most the value of its children.
+
+This is of course useful for when we want to access elements with minimum priority in each case.

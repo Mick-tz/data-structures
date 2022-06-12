@@ -691,12 +691,22 @@ The expectations on hash functions to be useful is that:
 
 So in general, when we cannot guarentee our hash function to be injective, we still hope it has a small probability of collisions.
 
+### Chaining
+Unsurprisingly, we tend to use hash functions alongside arrays to store and efficiently retrieve related data.
+
+In the case where we found a hash function satisfying the aformentioned constraints, we would still have to define how we would treat *collisions* in order not to lose data.
+
+This is where **_chaining_** comes handy, basically, it consists in using arrays that maps to lists, thus when a collision occurs, instead of losing any information, we would just append the new information to the list which is stored in our array (and accessed using the integer we obtained from hashing as an index).
 ## Maps
 A **_Map from set S into set V_** is a data structure that allows you to store a set of keys (elements of *S*) that maps into different values (which are elements of *V*).
 
 ### Maps API
 | Operation   | Description               | Complexity  |
 | --          | --                             |  --    |
-| `HasKey(k)` | Checks whether `k` is a key    | $O(1)$ |
-| `Get(k)`| Return the value associated to `k` | $O(1)$ |
-| `Set(k,v)`| Associates value `v` to key `k`  | $O(1)$ |
+| `HasKey(k)` | Checks whether `k` is a key    | $\Theta(c + 1)^*$ |
+| `Get(k)`| Return the value associated to `k` | $\Theta(c + 1)^*$ |
+| `Set(k,v)`| Associates value `v` to key `k`  | $\Theta(c + 1)^*$ |
+
+*Where $c$ is the length of the longest chain.
+
+**_Obs:_** If $n$ is the number of different objects currently in the map and $m$ is the cardinality of the hash function, then the memory consumption for chaining is $\Theta(n + m)$.

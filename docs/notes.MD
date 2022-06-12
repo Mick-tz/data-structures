@@ -610,3 +610,67 @@ We mention min-heaps before, thus, we quickly define them formally to round up t
 A **_Binary min-heap_** is a binary tree where the value of each node is at most the value of its children.
 
 This is of course useful for when we want to access elements with minimum priority in each case.
+
+## Disjoint Sets
+*Disjoint Sets* are collections of items in which we don't have repetition and each collection is disjoint to any other different collection. To put it in another way, disjoint sets are a way to partition a collection of data. We assign to each set a unique id, which we use to map it's items into that id.
+
+I order to implement *disjoint sets* efficiently, trees are commonly used as follows:
+
+ - each set is represented as a rooted tree
+ - each node value is an integer `i`
+ - such integers must be consecutives
+ - id of a set is the root of the tree
+ - we use an array `parent[i...n]` where we store the parent of each node, concretely `parent[j]` is the parent of node `j` or `j` in case `j` is the root
+
+### Disjoint Sets API
+| Operation   | Description               | Complexity  |
+| --          | --                                      |  --        |
+| `MakeSet(i)` | Creates a set containing `i`  | `O(1)` |
+| `Find(i)`| Finds id of set that contains `i` | `O(log n)` |
+| `Union(i,j)`| Merges sets containing `i` and `j` | `O(log n)` |
+
+We show an example implementation to achieve this complexity using an heuristic called *rank heuristic*, where we store a `ranks` array, containg the heights of each subtree
+```python
+from array import array
+class DisjointSet:
+  def __init__(self, n: int):
+    self._parents = array('i', range(n))
+    self._ranks = array('i', [0]*n)
+
+  def make_set(self, i: int) -> None:
+    self._parents[i] = i
+    self._ranks[i] = 0
+
+  def find(self, i: int) -> int:
+    while i != self._parents[i]:
+      i = self._parents[i]
+    return i
+
+  def union(self, i, j) -> None:
+    i_set_id = self.find(i)
+    j_set_id = self.find(j)
+    if i_set_id == j_set_id:
+      return
+    if self._ranks[j_set_id] < self._ranks[i_set_id]:
+      self._parents[j_set_id] = i_set_id
+    else:
+      self._parents[i_set_id] = j_set_id
+      self._ranks[j_set_id] += int(self._ranks[j_set_id] == self._ranks[i_set_id])
+```
+There is a way to improve this algorithm using a heuristic known as *path compression*. To do so, we just need to adjust our find operation in order not to lose information of a root node while calling it, as shown below
+
+```python
+class DisjointSet:
+...
+  def find(self, i):
+    if i != self._parents[i]:
+      self._parents[i] == self.find(self._parents[i])
+    return self._parents[i]
+...
+```
+
+Notice that, when using *path compression* (in our current implementation), `ranks[i]` is no longer equal to the height of the subtree rooted as `i`. This is due to the fact that `find` will not change values related to the rank, yet it will *flatten* the tree. Nonetheless `ranks[i]` is still an upper bound for the height of the subtree rooted at `i`
+
+**_Def:_** The **_iterated logarithm_** of `n`, denoted by `log* n`, is the number of times the logarithmic function needs to be applied to `n` before the result is less or equal than 1.
+
+It is not hard to proof that the *amortized running time* of each operation, using our implementatino is `O(log* n)` (which could be considered to be constant for practical values of `n` as `log* 2^65536 = 5`)

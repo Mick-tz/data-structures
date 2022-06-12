@@ -18,7 +18,7 @@ In concrete, to find the address of an element in an array, the following *"form
 ```
 arr[i]_addr := arr_addr + elem_size * (i - first_index)
 ```
-(thus, we compute the in-memory address of any item in *O(1)*)
+(thus, we compute the in-memory address of any item in $O(1)$)
 
 *Example declaration*
 
@@ -68,9 +68,9 @@ There are 2 ways we can layout multi-dimensional arrays.
 ### **Array operations**
 |               | Add    | Remove |
 | --            | ---    | ------ |
-| **Beginning** | `O(n)` | `O(n)` |
-| **End**       | `O(1)` | `O(1)` |
-| **Middle**    | `O(n)` | `O(n)` |
+| **Beginning** | $O(n)$ | $O(n)$ |
+| **End**       | $O(1)$ | $O(1)$ |
+| **Middle**    | $O(n)$ | $O(n)$ |
 
 
 **Pros**
@@ -106,17 +106,17 @@ When each node implement only a pointer to their next element, we say we are wor
 ### **List API** (Singly-Linked List)
 | Operation         | Description | Complexity (w.o. tail) | Complexity (with tail) |
 | --                | -- | -- | -- |
-| `PushFront(key)`  | add to front | `O(1)` | ~ |
-| `TopFront()`      | return front item | `O(1)` | ~ |
-| `PopFront()`      | return and remove front item | `O(1)` | ~ |
-| `PushBack(key)`   | add to back | `O(n)` | `O(1)` |
-| `TopBack()`       | return back item | `O(n)` | `O(1)` |
-| `PopBack()`       | return and remove back item | `O(n)` | ~ |
-| `Find(key)`       | assert element is in the list | `O(n)` | ~ |
-| `Erase(key)`      | find and remove from the list | `O(n)` | ~ |
-| `Empty()`     | assert if list is empty (head == nil) | `O(1)` | ~ |
-| `AddBefore(node, key)` | adds key before node | `O(n)` | ~ |
-| `AddAfter(node, key)` | adds key after node | `O(1)` | ~ |
+| `PushFront(key)`  | add to front | $O(1)$ | ~ |
+| `TopFront()`      | return front item | $O(1)$ | ~ |
+| `PopFront()`      | return and remove front item | $O(1)$ | ~ |
+| `PushBack(key)`   | add to back | $O(n)$ | $O(1)$ |
+| `TopBack()`       | return back item | $O(n)$ | $O(1)$ |
+| `PopBack()`       | return and remove back item | $O(n)$ | ~ |
+| `Find(key)`       | assert element is in the list | $O(n)$ | ~ |
+| `Erase(key)`      | find and remove from the list | $O(n)$ | ~ |
+| `Empty()`     | assert if list is empty (head == nil) | $O(1)$ | ~ |
+| `AddBefore(node, key)` | adds key before node | $O(n)$ | ~ |
+| `AddAfter(node, key)` | adds key after node | $O(1)$ | ~ |
 
 ### **Doubly-Linked List**
 If we were to add in every node a pointer to the previous element, we would operate
@@ -124,17 +124,17 @@ If we were to add in every node a pointer to the previous element, we would oper
 ### **List API** (Doubly-Linked List)
 | Operation         | Description | Complexity (w.o. tail) | Complexity (with tail) |
 | --                | -- | -- | -- |
-| `PushFront(key)`  | add to front | `O(1)` | ~ |
-| `TopFront()`      | return front item | `O(1)` | ~ |
-| `PopFront()`      | return and remove front item | `O(1)` | ~ |
-| `PushBack(key)`   | add to back | `O(n)` | `O(1)` |
-| `TopBack()`       | return back item | `O(n)` | `O(1)` |
-| `PopBack()`       | return and remove back item | `O(1)` | ~ |
-| `Find(key)`       | assert element is in the list | `O(n)` | ~ |
-| `Erase(key)`      | find and remove from the list | `O(n)` | ~ |
-| `Empty()`     | assert if list is empty (head == nil) | `O(1)` | ~ |
-| `AddBefore(node, key)` | adds key before node | `O(1)` | ~ |
-| `AddAfter(node, key)` | adds key after node | `O(1)` | ~ |
+| `PushFront(key)`  | add to front | $O(1)$ | ~ |
+| `TopFront()`      | return front item | $O(1)$ | ~ |
+| `PopFront()`      | return and remove front item | $O(1)$ | ~ |
+| `PushBack(key)`   | add to back | $O(n)$ | $O(1)$ |
+| `TopBack()`       | return back item | $O(n)$ | $O(1)$ |
+| `PopBack()`       | return and remove back item | $O(1)$ | ~ |
+| `Find(key)`       | assert element is in the list | $O(n)$ | ~ |
+| `Erase(key)`      | find and remove from the list | $O(n)$ | ~ |
+| `Empty()`     | assert if list is empty (head == nil) | $O(1)$ | ~ |
+| `AddBefore(node, key)` | adds key before node | $O(1)$ | ~ |
+| `AddAfter(node, key)` | adds key after node | $O(1)$ | ~ |
 
 
 **Pros**
@@ -154,10 +154,10 @@ Before going further, it's worth mentioning stacks could be implemented using st
 ### **Stack API**
 | Operation | Description | Complexity (using array as base) | Complexity (using list as base) |
 | -- | -- | -- | -- |
-| `Push(key)` | add key to collection | `O(1)` if `\|stack\| <= \|array\|` else `O(n)` | `O(1)` |
-| `Top()` | returns most-recently added key | `O(1)` | ~ |
-| `Pop()` | returns and removes most-recently added key | `O(1)` | ~ |
-| `Empty()` | assert if stack is empty | `O(1)` | ~ |
+| `Push(key)` | add key to collection | $O(1)$ if $\|stack\| \leq \|array\|$ else $O(n)$ | $O(1)$ |
+| `Top()` | returns most-recently added key | $O(1)$ | ~ |
+| `Pop()` | returns and removes most-recently added key | $O(1)$ | ~ |
+| `Empty()` | assert if stack is empty | $O(1)$ | ~ |
 
 While list implementation has the overhead cost of including pointers, array has the overhead cost of reserving empty spaces.
 
@@ -169,9 +169,9 @@ Similarly to stacks, *Queues* could be implemented both using a list or an array
 ### **Queue API**
 | Operation | Description | Complexity (using array as base) | Complexity (using list as base) |
 | -- | -- | -- | -- |
-| `Enqueue(key)` | add key to collection | `O(1)` if `\|queue\| <= \|array\|` else `O(n)` | `O(1)` |
-| `Dequeue()` | removes and returns last-recently added key | `O(1)` | ~ |
-| `Empty()` | assert if stack is empty | `O(1)` | ~ |
+| `Enqueue(key)` | add key to collection | $O(1)$ if `\|queue\| <= \|array\|` else $O(n)$ | $O(1)$ |
+| `Dequeue()` | removes and returns last-recently added key | $O(1)$ | ~ |
+| `Empty()` | assert if stack is empty | $O(1)$ | ~ |
 
 Same implementation overhead costs as with stacks apply for queues.
 
@@ -299,13 +299,13 @@ They allow us to dynamically increase the size of an array, by storing a pointer
 ### **Dynamic arrays API**
 | Operation   | Description                     | Complexity |
 | --          | --                              | --         |
-| `Get(i)`    | returns element at location `i` | `O(1)`     |
-| `Set(i, v)` | sets element `i` to value `v`   | `O(1)`     |
-| `PushBack(v)` | adds value `v` at the end     | `O(1)*`     |
-| `Remove(i)` | removes element at location `i` | `O(n)`     |
-| `Size()`    | returns the number of elements  | `O(1)`     |
+| `Get(i)`    | returns element at location `i` | $O(1)$     |
+| `Set(i, v)` | sets element `i` to value `v`   | $O(1)$     |
+| `PushBack(v)` | adds value `v` at the end     | $O(1)^*$     |
+| `Remove(i)` | removes element at location `i` | $O(n)$     |
+| `Size()`    | returns the number of elements  | $O(1)$     |
 
-\* *`PushBack(v)` is `O(n)` for the worst case scenario. However, doing amortized analysis, we find it to be `O(1)` almost everywhere.*
+\* *`PushBack(v)` is $O(n)$ for the worst case scenario. However, doing amortized analysis, we find it to be $O(1)$ almost everywhere.*
 
 ### Implementation
 In order to implement dynamical arrays we require 3 components:
@@ -366,7 +366,7 @@ If we consider every `PushBack(v)` call to take 3 operations (`O(3)=O(1)`), we c
   1. When we intend to Push again, we need to resize the array (as it is already filled), we create the new array (size 8), and we move the 4 elements which we already have (we have enough tokens to move them at cost 0), finally, we push to this new copy of the array at cost 3 (1 is for the actual insert, we save 1 for moving the 1st element and one for moving the 5th element).
   1. This pattern repeats itself.
 
-As we can see, we have "showned" (with some things to detail) that `PushBack(v)` has a complexity `O(3)=O(1)`.
+As we can see, we have "showned" (with some things to detail) that `PushBack(v)` has a complexity $O(3)=O(1)$.
 
 ### Physiscist Method (for amortized analysis)
 In *pysicist method* (for amortized analysis), we define an potential function, `phi`, which maps states of the data structure to integers.
@@ -400,12 +400,13 @@ To exemplify, we can define `phi(h) = 2 * (size - capacity)` for the amortized a
 ### Priority Queues API
 | Operation   | Description               | Complexity (using heaps) |
 | --          | --                                      |  --        |
-| `Insert(p)` | Adds new element with priority `p`      | `O(tree height)` |
-| `ExtractMax`| Extracts the element with max priority  | `O(tree height)` |
-| `Remove(it)`| Removes an element pointed by iterator `it`| `O(tree height)` |
-| `GetMax`| Returns element with max priority w.o. removing it | `O(1)` |
-| `ChangePriority(it,p)`| Using iterator `it` updates priority to `p` | `O(tree height)` |
+| `Insert(p)` | Adds new element with priority `p`      | $O (tree\ height)^*$ |
+| `ExtractMax`| Extracts the element with max priority  | $O (tree\ height)^*$ |
+| `Remove(it)`| Removes an element pointed by iterator `it`| $O (tree\ height)^*$ |
+| `GetMax`| Returns element with max priority w.o. removing it | $O(1)$ |
+| `ChangePriority(it,p)`| Using iterator `it` updates priority to `p` | $O (tree\ height)^*$ |
 
+*We'll see we can manage to have $O (tree\ height)=O (\log n)$
 ### Algorithms and built-in implementations
 
 The following algorithms use priority queues
@@ -427,13 +428,13 @@ A *Binary max-heap* is a binary tree, where the value of each node is at least t
 In other words, the ordering in the tree corresponding to the (total) ordering of the values in its nodes (each parent nodes value, is greater than or equal the values of its children nodes).
 
 ### Complete Binary heaps
-When we use a binary heap as the underlying structure of a priority queue, we want to keep the tree *as shallow as possible* since most operations will have complesity `O(tree height)`.
+When we use a binary heap as the underlying structure of a priority queue, we want to keep the tree *as shallow as possible* since most operations will have complesity $O(tree\ height)$.
 
 In order to achieve this property, a natural approach is to require that all levels are fully packed. This notion is known as a *complete tree*.
 
 In concrete, we say that a *binary tree is complete* if all its levels are filled, except possibly for the deepest one which is filled from left to right.
 
-**_OBS_**: A complete binary tree with `n` nodes has height at most `O(log n)`.
+**_OBS_**: A complete binary tree with $n$ nodes has height at most $O(\log n)$.
 
 An additional advantage of binary complete trees as binary heaps, is that they can be implemented using an array, when we start enumerating from the maximum node and follow up from left to right.
 
@@ -469,7 +470,7 @@ HeapSort(A[1...n])
     A[i] <- priorityQueue.ExtractMax()
 ```
 
-Complexity of heap sort is `O(nlog n)`, since  both `Insert` and `ExtractMax` work in logarithmic time for complete binary heaps.
+Complexity of heap sort is $O(n\log n)$, since  both `Insert` and `ExtractMax` work in logarithmic time for complete binary heaps.
 
 As mentioned, heap sort is a generalization of selection sort, in which instead of finding naively the maximum value at each iteration, we use a smart data structure.
 
@@ -563,25 +564,25 @@ if __name__ == "__main__":
 
 **Heap sort:**
   - In place, i.e. no extra memory required to sort
-  - Worst case `O(nlog n)`
+  - Worst case $O(n\log n)$
 
 **Quick sort:**
   - Faster than heap sort
-  - Average case `O(nlog n)`
+  - Average case $O(n\log n)$
 
 Because of this, a common approach known as *Intra sort* is sometimes used.
 
 i.e.
   - Run *Quicksort* algorithm
   - Keep track of recursion depth
-  - If recursion depth exceeds `clog n` for some constant `c`:
+  - If recursion depth exceeds $c\cdot\log n$ for some constant $c$:
     - stop *quicksort*
     - switch to *heapsort*
 
 ### Partial sorting
-Finally, we have to mention that heaps are really efficient when we want to partially sort an array, i.e. when we want to obtain the `k` largest or smalles elements in an array.
+Finally, we have to mention that heaps are really efficient when we want to partially sort an array, i.e. when we want to obtain the $k$ largest or smalles elements in an array.
 
-This comes from the fact that *heapifying* an array has complexity `O(n)`, thus, finding the `k` largest (or smallest) elements form an array can be performed in linear time when `k = O(n/log n)`.
+This comes from the fact that *heapifying* an array has complexity $O(n)$, thus, finding the $k$ largest (or smallest) elements form an array can be performed in linear time when $k = O\big(\frac{n}{\log n}\big)$.
 
 The algorithm to do this is quite simple as shown below:
 ```
@@ -590,7 +591,7 @@ PartialSorting(A[1...n], k):
   for i from 1 to k:
     ExtractMax()
 ```
-which will of course have runtime `O(n + k*log n)`.
+which will of course have runtime $O(n + k\cdot\log n)$.
 
 In python, `heapq` module provides this functionality natively
 ```python
@@ -625,9 +626,9 @@ I order to implement *disjoint sets* efficiently, trees are commonly used as fol
 ### Disjoint Sets API
 | Operation   | Description               | Complexity  |
 | --          | --                                      |  --        |
-| `MakeSet(i)` | Creates a set containing `i`  | `O(1)` |
-| `Find(i)`| Finds id of set that contains `i` | `O(log n)` |
-| `Union(i,j)`| Merges sets containing `i` and `j` | `O(log n)` |
+| `MakeSet(i)` | Creates a set containing `i`  | $O(1)$ |
+| `Find(i)`| Finds id of set that contains `i` | $O(\log n)$ |
+| `Union(i,j)`| Merges sets containing `i` and `j` | $O(\log n)$ |
 
 We show an example implementation to achieve this complexity using an heuristic called *rank heuristic*, where we store a `ranks` array, containg the heights of each subtree
 ```python
@@ -671,9 +672,9 @@ class DisjointSet:
 
 Notice that, when using *path compression* (in our current implementation), `ranks[i]` is no longer equal to the height of the subtree rooted as `i`. This is due to the fact that `find` will not change values related to the rank, yet it will *flatten* the tree. Nonetheless `ranks[i]` is still an upper bound for the height of the subtree rooted at `i`
 
->**_Def:_** The **_iterated logarithm_** of `n`, denoted by `log* n`, is the number of times the logarithmic function needs to be applied to `n` before the result is less or equal than 1.
+>**_Def:_** The **_iterated logarithm_** of $n$, denoted by $\log^*(n)$, is the number of times the logarithmic function needs to be applied to $n$ before the result is less or equal than 1.
 
-It is not hard to proof that the *amortized running time* of each operation, using our implementatino is `O(log* n)` (which could be considered to be constant for practical values of `n` as `log* 2^65536 = 5`)
+It is not hard to proof that the *amortized running time* of each operation, using our implementatino is $O(\log^*(n))$ (which could be considered to be constant for practical values of $n$ as $\log^*(2^{65536}) = 5$)
 
 ## Hashing
 >**_Def:_** For any set of objects $S$ and any integer $m\in\omega\setminus 1$, a function $h: S\to m$ is called a **_hash function_**. In other words, a **_hash function_** is a function that maps the set *S* into a set of non-negative integers.
@@ -691,3 +692,11 @@ The expectations on hash functions to be useful is that:
 So in general, when we cannot guarentee our hash function to be injective, we still hope it has a small probability of collisions.
 
 ## Maps
+A **_Map from set S into set V_** is a data structure that allows you to store a set of keys (elements of *S*) that maps into different values (which are elements of *V*).
+
+### Maps API
+| Operation   | Description               | Complexity  |
+| --          | --                             |  --    |
+| `HasKey(k)` | Checks whether `k` is a key    | $O(1)$ |
+| `Get(k)`| Return the value associated to `k` | $O(1)$ |
+| `Set(k,v)`| Associates value `v` to key `k`  | $O(1)$ |

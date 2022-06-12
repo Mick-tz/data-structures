@@ -710,3 +710,29 @@ A **_Map from set S into set V_** is a data structure that allows you to store a
 *Where $c$ is the length of the longest chain.
 
 **_Obs:_** If $n$ is the number of different objects currently in the map and $m$ is the cardinality of the hash function, then the memory consumption for chaining is $\Theta(n + m)$.
+
+Thus, we want to find ways (and a good hash function is vital for this) to assert that both $m$ and $c$ are as small as possible to have a good performance.
+## Sets
+A **_set_** is a data structure that allows us to store elements without repetetion (same concepts as we explored with disjoints sets, but we won't be policing to partition an original collection).
+
+### Sets API
+| Operation   | Description               | Complexity  |
+| --          | --                             |  --    |
+| `Add(o)`   | include object `o` in the set   | $\Theta(c + 1)^*$ |
+| `Remove(o)`| fromove object `o` from the set | $\Theta(c + 1)^*$ |
+| `Find(o)`  | check if `o` is in the set      | $\Theta(c + 1)^*$ |
+
+Objects are typically implemented using chaining, thus the complexities remain the same.
+
+## Hash Tables
+Finally, hash tables are implementations of either a Map or a Set where we use a hash function to map our objects (keys) into our values.+
+
+Notice the definition for this data structure didn't actually required the usage of hash functions, although we have been assuming for some of our calculations they are implemented in such a way.
+
+### Some implementations
+Set:
+  - `HashSet` in Java
+  - `set` in python
+Map:
+  - `HashMap` in Java
+  - `dict` in python

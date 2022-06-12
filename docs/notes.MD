@@ -671,6 +671,23 @@ class DisjointSet:
 
 Notice that, when using *path compression* (in our current implementation), `ranks[i]` is no longer equal to the height of the subtree rooted as `i`. This is due to the fact that `find` will not change values related to the rank, yet it will *flatten* the tree. Nonetheless `ranks[i]` is still an upper bound for the height of the subtree rooted at `i`
 
-**_Def:_** The **_iterated logarithm_** of `n`, denoted by `log* n`, is the number of times the logarithmic function needs to be applied to `n` before the result is less or equal than 1.
+>**_Def:_** The **_iterated logarithm_** of `n`, denoted by `log* n`, is the number of times the logarithmic function needs to be applied to `n` before the result is less or equal than 1.
 
 It is not hard to proof that the *amortized running time* of each operation, using our implementatino is `O(log* n)` (which could be considered to be constant for practical values of `n` as `log* 2^65536 = 5`)
+
+## Hashing
+>**_Def:_** For any set of objects $S$ and any integer $m\in\omega\setminus 1$, a function $h: S\to m$ is called a **_hash function_**. In other words, a **_hash function_** is a function that maps the set *S* into a set of non-negative integers.
+
+>**_Def:_** In the context of the previous definition, we call $m$, the cardinality of $h$.
+
+The expectations on hash functions to be useful is that:
+  - they should be fast to compute
+  - should be *injective*
+  - direct adressing using $O(m)$ memory
+  - thus, $m$ is expected to be relatively small
+  
+>**_Def:_** When $h(o_1)\ne h(o_2)$ and $o_1\ne o_2$ (i.e. $h$ is not *one to one*), we will call this event a **_collision_**.
+
+So in general, when we cannot guarentee our hash function to be injective, we still hope it has a small probability of collisions.
+
+## Maps

@@ -165,6 +165,7 @@ While list implementation has the overhead cost of including pointers, array has
 A typical usage for Stacks is keeping track of symmetrical operations.  
 As an example, we can use Stacks to keep track whether parenthesis or brackets are being used consistently in a text.
 
+Python example:
 ```Python
 LEFT_VALUES = ["[", "("]
 RIGHT_VALUES = ["]", ")"]
@@ -184,6 +185,13 @@ def is_balanced(text: str):
         return False
   return stack.is_empty()
 ```
+
+In the previous example, we assume we have implemented an explicit Stack class. We naturally can simply use a python `list` or a `deque` (from `collections` package). `deque` implementation is typically preferred as it proviedes $O(1)$ complexity while pushing and popping (in contrast to list's $O(n)$ complexities).
+
+In python is third option to use the `queue` from `LifoQueue` package. In the back, this implementation will require you to provide a `maxsize`. 
+
+Notice that another name for _Stacks_ is _LIFOQueues_ as shown in the python module.
+
 
 ## Queues
 Data type which follows **First In First Out (FIFO)** conventions and satisfies the API shown below.
@@ -300,12 +308,13 @@ class BinaryTree:
     pending_queue = Queue()
     pending_queue.enqueue(self)
     while not pending_queue.is_empty():
-      node = q.dequeue()
+      node = pending_queue.dequeue()
       func(node.key)
       if node.left_child:
-        q.enqueue(node.left_child)
+        pending_queue.enqueue(node.left_child)
       if node.right_child:
-        q.enqueue(node.right_child)
+        pending_queue.enqueue(node.right_child)
+
   ...
 ```
 

@@ -161,6 +161,30 @@ Before going further, it's worth mentioning stacks could be implemented using st
 
 While list implementation has the overhead cost of including pointers, array has the overhead cost of reserving empty spaces.
 
+### Example Usage
+A typical usage for Stacks is keeping track of symmetrical operations.  
+As an example, we can use Stacks to keep track whether parenthesis or brackets are being used consistently in a text.
+
+```Python
+LEFT_VALUES = ["[", "("]
+RIGHT_VALUES = ["]", ")"]
+COMPANIONS = {
+  "]": "[",
+  ")": "(",
+}
+def is_balanced(text: str):
+  stack = Stack()
+  for char in text:
+    if char in LEFT_VALUES:
+      stack.push(char)
+    if char in RIGHT_VALUES:
+      if stack.is_empty():
+        return False
+      if (COMPANIONS.get(char, None) != stack.pop()):
+        return False
+  return stack.is_empty()
+```
+
 ## Queues
 Data type which follows **First In First Out (FIFO)** conventions and satisfies the API shown below.
 

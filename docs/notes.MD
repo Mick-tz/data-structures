@@ -258,9 +258,9 @@ class BinaryTree:
     """
     if self.is_empty():
       return
-    self.left_child.in_order_traversal()
+    self.left_child.in_order_traversal(func)
     func(self.key)
-    self.right_child.in_order_traversal()
+    self.right_child.in_order_traversal(func)
   ...
 ```
 
@@ -276,8 +276,8 @@ class Tree:
     if self.is_empty():
       return
     func(self.key)
-    for child_tree in self.child_trees
-      child_tree.pre_order_traversal()
+    for child_tree in self.child_trees:
+      child_tree.pre_order_traversal(func)
 
 
   def post_order_traversal(self, func):
@@ -286,8 +286,8 @@ class Tree:
     """
     if self.is_empty():
       return
-    for child_tree in self.child_trees
-      child_tree.post_order_traversal()
+    for child_tree in self.child_trees:
+      child_tree.post_order_traversal(func)
     func(self.key)
   ...
 ```
@@ -306,14 +306,14 @@ class BinaryTree:
     if self.is_empty():
       return
     pending_queue = Queue()
-    pending_queue.enqueue(self)
-    while not pending_queue.is_empty():
-      node = pending_queue.dequeue()
+    pending_queue.put(self) # put is the enqueue in python Queue's api
+    while not pending_queue.empty():
+      node = pending_queue.get() # get is the dequeue in python Queue's api
       func(node.key)
       if node.left_child:
-        pending_queue.enqueue(node.left_child)
+        pending_queue.put(node.left_child)
       if node.right_child:
-        pending_queue.enqueue(node.right_child)
+        pending_queue.put(node.right_child)
 
   ...
 ```

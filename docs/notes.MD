@@ -321,9 +321,12 @@ class BinaryTree:
 **_OBS:_** Conversely to what we have mentioned before, breadth first (search) algorightms take advantage of queues. 
 
 ## Indirection
-Rather than directly storing our reference to the static of dynamically allocated chunk of memory, we store a pointer to that chunk of memory.
+Rather than directly storing our reference to the static or dynamically allocated chunk of memory, we store a pointer to that chunk of memory.
+
+> "All problems in computer science can be solved by another level of indirection."
+
 ## Dynamic Arrays
-*Dynamic arrays* are also known as rizesable arrays.
+*Dynamic arrays* are also known as **rizesable arrays**.
 
 They differ to *dynamically allocated arrays* which are simply arrays who's size is determined at run time, but never changes.
 
@@ -402,7 +405,7 @@ If we consider every `PushBack(v)` call to take 3 operations (`O(3)=O(1)`), we c
 As we can see, we have "showned" (with some things to detail) that `PushBack(v)` has a complexity $O(3)=O(1)$.
 
 ### Physiscist Method (for amortized analysis)
-In *pysicist method* (for amortized analysis), we define an potential function, `phi`, which maps states of the data structure to integers.
+In *pysicist method* (for amortized analysis), we define a potential function, `phi`, which maps states of the data structure to integers.
 
 Such a function should satisfy the following:
   - `phi(h0) = 0 # where h0 is the initial state of the data structure` 
